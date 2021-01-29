@@ -18,28 +18,30 @@ import java.util.stream.Collectors;
 public class EmployeePayrollExceptionalHandler {
 
     private static final String message = "Exception while processing Rest Request";
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ResponseDTO> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
         log.error("Invalid Date Format", exception);
         ResponseDTO responseDTO = new ResponseDTO(message, "Should Have date in the Format dd MMM yyyy");
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResponseDTO> handleMethodArgumentNotValidException(
-                                        MethodArgumentNotValidException exception) {
+            MethodArgumentNotValidException exception) {
         List<ObjectError> errorList = exception.getBindingResult().getAllErrors();
         List<String> errMsg = errorList.stream()
-                                .map(objErr -> objErr.getDefaultMessage())
-                                .collect(Collectors.toList());
+                .map(objErr -> objErr.getDefaultMessage())
+                .collect(Collectors.toList());
         ResponseDTO responseDTO = new ResponseDTO("Exception while processing REST Request", errMsg);
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EmployeePayrollException.class)
     public ResponseEntity<ResponseDTO> handlerEmployeePayrollException(
-                                        EmployeePayrollException exception) {
+            EmployeePayrollException exception) {
         ResponseDTO responseDTO = new ResponseDTO("Exception while processing REST Request",
-                                                    exception.getMessage());
+                exception.getMessage());
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.BAD_REQUEST);
     }
 }

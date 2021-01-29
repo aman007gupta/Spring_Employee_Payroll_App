@@ -9,11 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/employeepayrollservice")
+@CrossOrigin(origins = "http://localhost:3000")
 public class EmployeePayrollController {
 
     @Autowired
@@ -44,7 +46,7 @@ public class EmployeePayrollController {
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> addEmployeePayrollData(@Valid @RequestBody
-                                                         EmployeePayrollDTO employeePayrollDTO) {
+                                                                      EmployeePayrollDTO employeePayrollDTO) {
 
         EmployeePayrollData employeePayrollData = employeePayrollService.createEmployeePayrollData(employeePayrollDTO);
         ResponseDTO responseDTO = new ResponseDTO("Create Employee Payroll Data Successfully", employeePayrollData);
@@ -62,7 +64,7 @@ public class EmployeePayrollController {
     @DeleteMapping("/delete/{empId}")
     public ResponseEntity<ResponseDTO> deleteEmployeePayrollData(@PathVariable("empId") int empId) {
         employeePayrollService.deleteEmployeePayrollDta(empId);
-        ResponseDTO responseDTO = new ResponseDTO("Delete Successfully", "Delete Id: " +empId);
+        ResponseDTO responseDTO = new ResponseDTO("Delete Successfully", "Delete Id: " + empId);
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 }

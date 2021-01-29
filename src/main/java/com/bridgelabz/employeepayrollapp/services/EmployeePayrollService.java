@@ -8,12 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
-public class EmployeePayrollService implements IEmployeePayrollService{
+public class EmployeePayrollService implements IEmployeePayrollService {
 
     @Autowired
     private EmployeePayrollRepository employeePayrollRepository;
@@ -26,14 +25,14 @@ public class EmployeePayrollService implements IEmployeePayrollService{
     @Override
     public EmployeePayrollData getEmployeePayrollDataById(int empId) {
         return employeePayrollRepository
-                    .findById(empId)
-                    .orElseThrow(() -> new EmployeePayrollException("Employee Not Found"));
+                .findById(empId)
+                .orElseThrow(() -> new EmployeePayrollException("Employee Not Found"));
     }
 
     @Override
     public EmployeePayrollData createEmployeePayrollData(EmployeePayrollDTO employeePayrollDTO) {
-        EmployeePayrollData empPayrollData =null;
-        empPayrollData = new EmployeePayrollData(1, employeePayrollDTO);
+        EmployeePayrollData empPayrollData = null;
+        empPayrollData = new EmployeePayrollData(employeePayrollDTO);
         log.debug("Employee Data:" + empPayrollData.toString());
         return employeePayrollRepository.save(empPayrollData);
     }
